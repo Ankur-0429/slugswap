@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import AppleSignInButton from '../components/AppleSignInButton';
 import GoogleSignInButton from '../components/GoogleSignInButton';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
@@ -8,6 +9,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
       <GoogleSignInButton />
+      <AppleSignInButton />
     </View>
   );
 }
