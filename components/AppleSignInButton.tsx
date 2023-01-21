@@ -3,15 +3,17 @@ import { View, StyleSheet } from 'react-native';
 import {getAuth, OAuthProvider, signInWithCredential} from 'firebase/auth';
 import firebase from '../constants/FirebaseConfig';
 import * as Crypto from 'expo-crypto';
+import useColorScheme from '../hooks/useColorScheme';
 
 export default function AppleSignInButton() {
+  const colorScheme = useColorScheme();
   return (
     <View>
       <AppleAuthentication.AppleAuthenticationButton
         buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+        buttonStyle={colorScheme === "dark" ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
         cornerRadius={5}
-        style={{width: 300, height: 200}}
+        style={{width: 250, height: 50}}
         onPress={async () => {
           try {
             const nonce = Math.random().toString(36).substring(2, 10);
