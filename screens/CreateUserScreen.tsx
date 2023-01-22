@@ -2,8 +2,6 @@ import { StyleSheet, TextInput } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { Avatar, Accessory } from 'react-native-elements';
-
-
 import { SelectList } from 'react-native-dropdown-select-list'
 import { useState } from 'react';
 import useColorScheme from '../hooks/useColorScheme';
@@ -22,7 +20,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
 import { guest } from '../constants/Profile';
 import { Button } from 'react-native-paper';
-
+import convertToURL from '../constants/ConvertToURL';
+import { getAuth } from "firebase/auth";
 
 const DropDown = ({setSelected, data, title}:DropDownProps) => {
   const colorScheme = useColorScheme();
@@ -74,6 +73,9 @@ export default function TabTwoScreen() {
   const [slugPoints, setSlugPoints] = useState(undefined as undefined | string);
   const colorSheme = useColorScheme();
   const [image, setImage] = useState(null as any);
+  const auth = getAuth();
+  const user = auth.currentUser;
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -132,7 +134,7 @@ export default function TabTwoScreen() {
           keyboardType="numeric"
         />
       </View>
-      <Button style={{marginHorizontal: 20, marginTop: 10, width: 250, borderRadius: 10}} disabled={bio === undefined || college === undefined || ifSendSlugPoints === undefined || slugPoints === undefined || slugPoints === '' || bio === '' || college === ''} buttonColor="#1DA1F2" mode="contained" onPress={() => console.log('Pressed')}>
+      <Button style={{marginHorizontal: 20, marginTop: 10, width: 250, borderRadius: 10}} disabled={bio === undefined || college === undefined || ifSendSlugPoints === undefined || slugPoints === undefined || slugPoints === '' || bio === '' || college === ''} buttonColor="#1DA1F2" mode="contained" onPress={() => {convertToURL(image, user!.uid)}}>
         Submit
       </Button>
     </KeyboardAwareScrollView>
