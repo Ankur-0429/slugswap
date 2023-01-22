@@ -19,7 +19,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   return (
     <View style={styles.container}>
       <FlatList 
-        contentContainerStyle={{marginVertical: 20}}
+        contentContainerStyle={{marginVertical: 20, marginTop: 150}}
         data={tempData}
         renderItem={({item}) => {
           return (
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   title: {
     fontSize: 20,

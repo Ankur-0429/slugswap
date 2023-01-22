@@ -40,21 +40,21 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
 
-  const ifSignedIn = false;
+  const ifSignedIn = true;
 
   return (
     <Stack.Navigator>
       {ifSignedIn
       ?
       <Stack.Group>
-        <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerTransparent: true, headerBlurEffect: 'dark', headerTitle: '', headerBackVisible: false}} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="Modal" component={ModalScreen} />
         </Stack.Group>
       </Stack.Group>
       :
-      <Stack.Group screenOptions={{headerShown: true, headerTransparent: true, headerBlurEffect: 'dark', headerTitle: '', headerBackVisible: false}}>
+      <Stack.Group screenOptions={{headerTransparent: true, headerBlurEffect: 'dark', headerTitle: '', headerBackVisible: false}}>
         <Stack.Screen name="Register" component={SignInScreen} />
         <Stack.Screen name="UserCreate" component={CreateUserScreen} />
       </Stack.Group>
@@ -78,7 +78,7 @@ function BottomTabNavigator() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
         tabBarShowLabel: false,
-        headerTitle: ''
+        headerShown: false,
       }}>
       <BottomTab.Screen
         name="TabOne"
