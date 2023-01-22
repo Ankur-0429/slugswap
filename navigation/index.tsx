@@ -40,7 +40,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
 
-  const ifSignedIn = true;
+  const ifSignedIn = false;
 
   return (
     <Stack.Navigator>

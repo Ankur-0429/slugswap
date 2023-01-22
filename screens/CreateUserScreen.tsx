@@ -10,6 +10,8 @@ import { useState } from 'react';
 import useColorScheme from '../hooks/useColorScheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as ImagePicker from 'expo-image-picker';
+import { guest } from '../constants/Profile';
+import { Button } from 'react-native-paper';
 
 interface DropDownProps {
   setSelected: React.Dispatch<React.SetStateAction<any>>;
@@ -31,7 +33,7 @@ const DropDown = ({setSelected, data, title}:DropDownProps) => {
       <SelectList 
           setSelected={(val: any) => setSelected(val)} 
           dropdownStyles={{backgroundColor:  BoxColor}}
-          boxStyles={{backgroundColor: BoxColor, width: 250, height: 40}}
+          boxStyles={{backgroundColor: BoxColor, width: 250}}
           data={data} 
           save="value"
       />
@@ -60,16 +62,16 @@ const SlugPointData = [
 ]
 
 export default function TabTwoScreen() {
-  const [college, setCollege] = useState(null as any);
-  const [ifSendSlugPoints, setIfSendSlugPoints] = useState(null as any);
-  const [bio, setBio] = useState(null as any);
-  const [slugPoints, setSlugPoints] = useState(null as any);
+  const [college, setCollege] = useState(null as null | string);
+  const [ifSendSlugPoints, setIfSendSlugPoints] = useState(null as null | boolean);
+  const [bio, setBio] = useState(undefined as undefined | string);
+  const [slugPoints, setSlugPoints] = useState(undefined as undefined | string);
   const colorSheme = useColorScheme();
   const [image, setImage] = useState(null as any);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -91,7 +93,7 @@ export default function TabTwoScreen() {
         size="xlarge"
         source={{
           uri:
-          'https://news.ucsc.edu/2020/07/images/strongslugredwood4001.jpg',
+          image || guest,
         }}
         >
         <Accessory onPress={pickImage} size={40} color="black" />
@@ -122,6 +124,9 @@ export default function TabTwoScreen() {
           keyboardType="numeric"
         />
       </View>
+      <Button style={{marginHorizontal: 20, marginTop: 10, width: 250, borderRadius: 10}} disabled={bio === undefined || college === undefined || ifSendSlugPoints === undefined || slugPoints === undefined || slugPoints === '' || bio === '' || college === ''} buttonColor="#1DA1F2" mode="contained" onPress={() => console.log('Pressed')}>
+        Submit
+      </Button>
     </KeyboardAwareScrollView>
     </View>
   );
