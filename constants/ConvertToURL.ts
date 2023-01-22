@@ -7,8 +7,6 @@ import {
 
 const convertToURL = async (uri: string, filename: string) => {
   const storage = getStorage();
-
-  let fileName = null;
   let blobFile = null;
 
   if (uri != null) {
@@ -18,7 +16,7 @@ const convertToURL = async (uri: string, filename: string) => {
   }
 
   if (!blobFile) return;
-  const storageRef = ref(storage, `image/${fileName}`);
+  const storageRef = ref(storage, `image/${filename}`);
   const uploadTask = await uploadBytesResumable(storageRef, blobFile);
   const url = await getDownloadURL(uploadTask.ref);
   return url;

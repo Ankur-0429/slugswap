@@ -3,13 +3,13 @@ import {
   setDoc,
   doc,
   arrayUnion,
-  serverTimestamp,
   getDoc,
   updateDoc,
   arrayRemove,
 } from "firebase/firestore/lite";
-import auth, { getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import firebase from "../constants/FirebaseConfig";
+import uuid from 'react-native-uuid';
 
 const follow = async (uid: string) => {
   const auth = getAuth(firebase);
@@ -34,20 +34,20 @@ const follow = async (uid: string) => {
         await updateDoc(doc(db, "follower_request", currentUser), {
             follower_request: arrayRemove(uid),
         });
+        await setDoc(doc(db, "dms", uuid.v4() as string), {
+            users: [currentUser, uid]
+        });
     } else {
         await setDoc(doc(db, "follower_request", uid), {
             follower_request: arrayUnion(currentUser),
-            dateCreated: serverTimestamp(),
         });
     }
 
     await setDoc(doc(db, "following", currentUser), {
       following: arrayUnion(uid),
-      dateCreated: serverTimestamp(),
     });
     await setDoc(doc(db, "followers", uid), {
       followers: arrayUnion(currentUser),
-      dateCreated: serverTimestamp(),
     });
   }
 };
