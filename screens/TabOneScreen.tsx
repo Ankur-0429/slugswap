@@ -5,10 +5,28 @@ import { Text, View } from '../components/Themed';
 import UserProfile from '../components/UserProfile';
 import { RootTabScreenProps } from '../types';
 
+
+const tempData = [{
+  profileUri: 'https://news.ucsc.edu/2020/07/images/strongslugredwood4001.jpg',
+  name: 'Ankur Ahir',
+  bio: 'testing this out...',
+  collegeAffiliation: 'Crown',
+  slugPoints: 2323,
+  wantsSlugPoints: false,
+}]
+
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
     <View style={styles.container}>
-      <UserProfile />
+      <FlatList 
+        contentContainerStyle={{marginVertical: 20}}
+        data={tempData}
+        renderItem={({item}) => {
+          return (
+            <UserProfile profileUri={item.profileUri} name={item.name} bio={item.bio} collegeAffiliation={item.collegeAffiliation} slugPoints={item.slugPoints} wantsSlugPoints={item.wantsSlugPoints} />
+          )
+        }}
+      />
     </View>
   );
 }

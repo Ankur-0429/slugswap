@@ -4,16 +4,16 @@ import { StyleSheet, Image } from "react-native";
 import useColorScheme from "../hooks/useColorScheme";
 import { Feather } from "@expo/vector-icons";
 
-const tempData = {
-    profileUri: 'https://news.ucsc.edu/2020/07/images/strongslugredwood4001.jpg',
-    name: 'Ankur Ahir',
-    bio: 'testing this out...',
-    collegeAffiliation: 'Crown',
-    slugPoints: 2323,
-    wantsSlugPoints: false,
+interface UserProfileProps {
+  profileUri: string;
+  name: string;
+  bio: string;
+  collegeAffiliation: string;
+  slugPoints: number;
+  wantsSlugPoints: boolean;
 }
 
-const UserProfile = () => {
+const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wantsSlugPoints}: UserProfileProps) => {
     const colorScheme = useColorScheme();
     const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
     return (
@@ -21,19 +21,19 @@ const UserProfile = () => {
         <View style={styles.container}>
             <View style={{backgroundColor: boxColor, borderRadius: 10, width: 350, alignSelf: 'center', paddingVertical: 10}}>
               <View style={{flexDirection: 'row', backgroundColor: boxColor}}>
-                <Image source={{uri: tempData.profileUri}} style={{width: 50, height: 50, borderRadius: 25, overflow: 'hidden', marginHorizontal: 10, marginBottom: 10}} />
+                <Image source={{uri: profileUri}} style={{width: 50, height: 50, borderRadius: 25, overflow: 'hidden', marginHorizontal: 10, marginBottom: 10}} />
                 <View style={{backgroundColor: boxColor}}>
-                  <Text style={{fontWeight: 'bold'}}>{tempData.name}</Text>
-                  <Text style={{opacity: 0.8, fontSize: 12}}>{tempData.slugPoints} slugPoints</Text>
+                  <Text style={{fontWeight: 'bold'}}>{name}</Text>
+                  <Text style={{opacity: 0.8, fontSize: 12}}>{slugPoints} slugPoints</Text>
                 </View>
-                <Text style={{marginLeft: 'auto', marginRight: 5, textAlignVertical: 'center', fontWeight: 'bold'}}>{tempData.collegeAffiliation}</Text>
+                <Text style={{marginLeft: 'auto', marginRight: 5, textAlignVertical: 'center', fontWeight: 'bold'}}>{collegeAffiliation}</Text>
                 <Feather name="home" size={18} color={colorScheme === "dark" ? "white": "black"} style={{marginRight: 10}} />
               </View>
               <Text style={styles.paragraph}>
-                {tempData.bio}
+                {bio}
               </Text>
-              <Button style={{marginHorizontal: 20, marginTop: 10}} buttonColor="#1DA1F2" icon={tempData.wantsSlugPoints ? "currency-usd":"send"} mode="contained" onPress={() => console.log('Pressed')}>
-                {tempData.wantsSlugPoints ? "Request SlugPoints":"Give Away SlugPoints"}
+              <Button style={{marginHorizontal: 20, marginTop: 10}} buttonColor="#1DA1F2" icon={wantsSlugPoints ? "currency-usd":"send"} mode="contained" onPress={() => console.log('Pressed')}>
+                {wantsSlugPoints ? "Request SlugPoints":"Give Away SlugPoints"}
               </Button>
             </View>
         </View>
