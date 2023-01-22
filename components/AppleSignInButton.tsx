@@ -4,9 +4,14 @@ import {getAuth, OAuthProvider, signInWithCredential} from 'firebase/auth';
 import firebase from '../constants/FirebaseConfig';
 import * as Crypto from 'expo-crypto';
 import useColorScheme from '../hooks/useColorScheme';
+import me from '../api/me';
+import { useAtom } from 'jotai';
+import { ifSignedIn, currentUser } from '../constants/Atoms';
 
 export default function AppleSignInButton({navigation}: any) {
   const colorScheme = useColorScheme();
+  const [,setIfSignedIn] = useAtom(ifSignedIn);
+  const [,setCurrentUser] = useAtom(currentUser);
   return (
     <View>
       <AppleAuthentication.AppleAuthenticationButton
@@ -36,8 +41,18 @@ export default function AppleSignInButton({navigation}: any) {
                 idToken: identityToken!,
                 rawNonce: nonce
             });
-            signInWithCredential(auth, credential).then(() => {
-              navigation.navigate('UserCreate')
+            signInWithCredential(auth, credential).then(async () => {
+              if (auth.currentUser?.uid) {
+                const check = await me(auth.currentUser.uid);
+                if (!check) {
+                  navigation.navigate('UserCreate')
+                } else {
+                  setCurrentUser(check as any);
+                  setIfSignedIn(true);
+                }
+              } else {
+                navigation.navigate('UserCreate')
+              }
             });
             // Successful sign in is handled by firebase.auth().onAuthStateChanged
         })

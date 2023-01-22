@@ -5,6 +5,9 @@ import {getAuth, GoogleAuthProvider, signInWithCredential} from 'firebase/auth';
 import firebase from '../constants/FirebaseConfig';
 import { SocialIcon } from 'react-native-elements';
 import useColorScheme from '../hooks/useColorScheme';
+import me from '../api/me';
+import { useAtom } from 'jotai';
+import { currentUser, ifSignedIn } from '../constants/Atoms';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -23,14 +26,27 @@ export default function GoogleSignInButton({navigation}: any) {
   }, []);
 
   const colorScheme = useColorScheme();
+
+  const [,setIfSignedIn] = useAtom(ifSignedIn);
+  const [,setCurrentUser] = useAtom(currentUser);
   
   React.useEffect(() => {
     if (response?.type === 'success') {
       const { authentication } = response;
       const auth = getAuth(firebase);
       const credential = GoogleAuthProvider.credential(authentication?.idToken, authentication?.accessToken);
-      signInWithCredential(auth, credential).then(() => {
-        navigation.navigate('UserCreate')
+      signInWithCredential(auth, credential).then(async () => {
+        if (auth.currentUser?.uid) {
+          const check = await me(auth.currentUser.uid);
+          if (!check) {
+            navigation.navigate('UserCreate')
+          } else {
+            setCurrentUser(check as any);
+            setIfSignedIn(true);
+          }
+        } else {
+          navigation.navigate('UserCreate')
+        }
       });
     }
   }, [response]);
