@@ -4,6 +4,7 @@ import { StyleSheet, Image } from "react-native";
 import useColorScheme from "../hooks/useColorScheme";
 import { Feather } from "@expo/vector-icons";
 import follow from "../api/follow";
+import FollowButton from "./FollowButton";
 
 interface UserProfileProps {
   profileUri: string;
@@ -34,9 +35,9 @@ const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wan
               <Text style={styles.paragraph}>
                 {bio}
               </Text>
-              <Button style={{marginHorizontal: 20, marginTop: 10}} buttonColor="#1DA1F2" icon={wantsSlugPoints ? "currency-usd":"send"} mode="contained" onPress={() => {follow(uid)}}>
-                {wantsSlugPoints ? "Request SlugPoints":"Give SlugPoints"}
-              </Button>
+              <View style={{backgroundColor: 'transparent', marginHorizontal: 20, marginTop: 10}}>
+                <FollowButton uid={uid} wantsSlugPoints={wantsSlugPoints} />
+              </View>
             </View>
         </View>
       </View>
@@ -51,7 +52,6 @@ const styles = StyleSheet.create({
     paragraph: {
       fontSize: 12,
       paddingHorizontal: 20,
-      paddingLeft: 70
     },
   });
   

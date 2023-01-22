@@ -7,7 +7,7 @@ export default function useConnection() {
   const firestore = getFirestore();
   const [currUser] = useAtom(currentUser);
   const folowerRef = doc(firestore, "followers", currUser!.uid);
-  const followingRef = doc(firestore, "followers", currUser!.uid);
+  const followingRef = doc(firestore, "following", currUser!.uid);
   const requestRef = doc(firestore, "follower_request", currUser!.uid);
   const [followers, setFollowers] = useState([] as string[]);
   const [following, setFollowing] = useState([] as string[]);
@@ -16,26 +16,27 @@ export default function useConnection() {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(folowerRef, (snapshot) => {
-      setFollowers(snapshot.data()?.followers);
+      setFollowers(snapshot.data()?.followers || []);
     });
     return unsubscribe;
   }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(followingRef, (snapshot) => {
-      setFollowing(snapshot.data()?.following);
+      setFollowing(snapshot.data()?.following || []);
     });
     return unsubscribe;
   }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(requestRef, (snapshot) => {
-      setRequests(snapshot.data()?.["follower_request"]);
+      setRequests(snapshot.data()?.["follower_request"] || []);
     });
     return unsubscribe;
   }, []);
 
-  const dms = followers.filter((e) => {return following.includes(e)})
+  const dms = followers.filter((e) => {return following.includes(e)});
+  const requested = following.filter((e) => {return !followers.includes(e)})
 
-  return {followers, following, dms, request};
+  return {dms, request, requested};
 }

@@ -1,142 +1,102 @@
-import { KeyboardAvoidingView, Platform, StyleSheet, TextInput } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { Avatar, Accessory } from 'react-native-elements';
-
-
-import { SelectList } from 'react-native-dropdown-select-list'
-import { useState } from 'react';
+import { View, Text } from '../components/Themed';
 import useColorScheme from '../hooks/useColorScheme';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Layout from '../constants/Layout';
+import useConnection from '../hooks/useConnection';
+import useUser from '../hooks/useUsert';
+import { Button } from "react-native-paper";
+import { StyleSheet, Image, FlatList, ListRenderItem } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import follow from '../api/follow';
 
-interface DropDownProps {
-  setSelected: React.Dispatch<React.SetStateAction<any>>;
-  data: {
-    key: string;
-    value: string;
-  }[];
-  title?: string;
+interface DirectMessageUserProps {
+  uid: string;
+  index: number
 }
 
-import { Button, Image } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-
-
-const DropDown = ({setSelected, data, title}:DropDownProps) => {
+const DirectMessageUser = ({uid, index}: DirectMessageUserProps) => {
+  const {user} = useUser(uid);
   const colorScheme = useColorScheme();
-
-  const BoxColor = colorScheme === "dark" ? "white":"#ccc";
+  const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
   
-  
-
-  return(
-    <View style={{marginVertical: 10}}>
-      <Text style={{paddingLeft: 5}}>{title}</Text>
-      <SelectList 
-          setSelected={(val: any) => setSelected(val)} 
-          dropdownStyles={{backgroundColor:  BoxColor}}
-          boxStyles={{backgroundColor: BoxColor, width: 250}}
-          data={data} 
-          save="value"
-      />
+  return (
+    <View style={{marginBottom: 20}}>
+      <Text style={{fontWeight: 'bold', fontSize: 30, marginBottom: 5}}>{index === 0 && "Direct Message"}</Text>
+      <View>
+          <View style={{backgroundColor: boxColor, borderRadius: 10, paddingVertical: 10}}>
+            <View style={{flexDirection: 'row', backgroundColor: boxColor}}>
+              <Image source={{uri: user?.image}} style={{width: 50, height: 50, borderRadius: 25, overflow: 'hidden', marginHorizontal: 10}} />
+              <View style={{backgroundColor: boxColor, marginTop: 8}}>
+                <Text style={{fontWeight: 'bold'}}>{user?.name}</Text>
+                <Text style={{opacity: 0.8, fontSize: 12}}>{user?.slugPoints} slugPoints</Text>
+              </View>
+              <View style={{marginLeft: 'auto', backgroundColor: 'transparent'}}>
+                <View style={{backgroundColor: 'transparent', flexDirection: 'row'}}>
+                  <Text style={{marginLeft: 'auto', marginRight: 5, textAlignVertical: 'center', fontWeight: 'bold'}}>{user?.collegeAffiliation}</Text>
+                  <Feather name="home" size={18} color={colorScheme === "dark" ? "white": "black"} style={{marginRight: 10}} />
+                </View>
+                <Button mode='text' style={{marginLeft: 23}} textColor='#1DA1F2'>
+                  Message
+                </Button>
+              </View>
+            </View>
+          </View>
+      </View>
     </View>
   )
+}
 
-};
+const FollowerRequestUser = ({uid, index}: DirectMessageUserProps) => {
+  const {user} = useUser(uid);
+  const colorScheme = useColorScheme();
+  const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
+  
+  return (
+    <View style={{marginBottom: 20}}>
+      <Text style={{fontWeight: 'bold', fontSize: 30, marginBottom: 5}}>{index === 0 && "Follower Request"}</Text>
+      <View>
+          <View style={{backgroundColor: boxColor, borderRadius: 10, paddingVertical: 10}}>
+            <View style={{flexDirection: 'row', backgroundColor: boxColor}}>
+              <Image source={{uri: user?.image}} style={{width: 50, height: 50, borderRadius: 25, overflow: 'hidden', marginHorizontal: 10}} />
+              <View style={{backgroundColor: boxColor, marginTop: 8}}>
+                <Text style={{fontWeight: 'bold'}}>{user?.name}</Text>
+                <Text style={{opacity: 0.8, fontSize: 12}}>{user?.slugPoints} slugPoints</Text>
+              </View>
+              <View style={{marginLeft: 'auto', backgroundColor: 'transparent'}}>
+                <View style={{backgroundColor: 'transparent', flexDirection: 'row'}}>
+                  <Text style={{marginLeft: 'auto', marginRight: 5, textAlignVertical: 'center', fontWeight: 'bold'}}>{user?.collegeAffiliation}</Text>
+                  <Feather name="home" size={18} color={colorScheme === "dark" ? "white": "black"} style={{marginRight: 10}} />
+                </View>
+                <Button onPress={() => {follow(user?.uid || '')}} mode='text' style={{marginLeft: 23}} textColor='#1DA1F2'>
+                  Follow Back
+                </Button>
+              </View>
+            </View>
+          </View>
+      </View>
+    </View>
+  )
+}
 
-const Collegedata = [
-  {key:'0', value: 'Off Campus'},
-  {key:'1', value:'Cowell'},
-  {key:'2', value:'Stevenson'},
-  {key:'3', value:'Crown'},
-  {key:'4', value:'Merill'},
-  {key:'5', value:'Porter'},
-  {key:'6', value:'Kresge'},
-  {key:'7', value:'Oaks'},
-  {key:'8', value: 'Rachel Carson'},
-  {key:'9', value: 'College 9'},
-  {key: '10', value: 'John R. Lewis'}
-]
-
-const SlugPointData = [
-  {key:'1', value:'I want to receive slugPoints'},
-  {key:'2', value:'I want to send slugPoints'}
-]
 
 export default function TabTwoScreen() {
-  const [college, setCollege] = useState(null as any);
-  const [ifSendSlugPoints, setIfSendSlugPoints] = useState(null as any);
-  const [bio, setBio] = useState(null as any);
-  const [slugPoints, setSlugPoints] = useState(null as any);
-  const colorSheme = useColorScheme();
-  const [image, setImage] = useState(null as any);
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
+  const {dms, request} = useConnection();
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Welcome! Please enter your details below</Text>
-      {/* @ts-ignore */}
-      <Avatar
-        rounded
-        onPress={pickImage}
-        size="xlarge"
-        source={{
-          uri:
-          'https://news.ucsc.edu/2020/07/images/strongslugredwood4001.jpg',
-        }}
-        >
-        <Accessory size={40} color="black" />
-      </Avatar>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <View>
-        <Text style={{paddingLeft: 8}}>Bio</Text>
-        <TextInput
-          style={[styles.input, {backgroundColor: colorSheme === "dark" ? "white":"#ccc"}]}
-          selectionColor="black"
-          placeholderTextColor="black"
-          onChangeText={(text) => {setBio(text)}}
-          value={bio}
-          placeholder="What's happening?"
-          keyboardType="twitter"
-        />
-      </View>
-      <DropDown setSelected={setCollege} data={Collegedata} title={'College Affiliation'} />
-      <DropDown setSelected={setIfSendSlugPoints} data={SlugPointData} title={'Send or Receive SlugPoints?'} />
-      <View>
-        <Text style={{paddingLeft: 8}}>How many SlugPoints do you have?</Text>
-        <TextInput
-          style={[styles.input, {backgroundColor: colorSheme === "dark" ? "white":"#ccc"}]}
-          selectionColor="black"
-          placeholderTextColor="black"
-          onChangeText={(text) => {setSlugPoints(text)}}
-          value={slugPoints}
-          keyboardType="numeric"
-        />
-      </View>
-    </KeyboardAwareScrollView>
+      <FlatList contentContainerStyle={{marginVertical: 20, marginTop: 150}} data={dms} renderItem={
+        ({item, index}) => <DirectMessageUser uid={item} index={index} />
+      } />
+
+      <FlatList data={request} renderItem={
+        ({item, index}) => <FollowerRequestUser uid={item} index={index} />
+      } />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
   },
   title: {

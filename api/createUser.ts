@@ -2,7 +2,7 @@ import { serverTimestamp } from 'firebase/firestore';
 import { getFirestore, setDoc, doc } from 'firebase/firestore/lite';
 import { guest } from '../constants/Profile';
 
-interface createUserProps {
+export interface createUserProps {
     uid: string;
     bio: string;
     collegeAffiliation: string;
