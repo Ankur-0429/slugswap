@@ -5,7 +5,7 @@ import firebase from '../constants/FirebaseConfig';
 import * as Crypto from 'expo-crypto';
 import useColorScheme from '../hooks/useColorScheme';
 
-export default function AppleSignInButton() {
+export default function AppleSignInButton({navigation}: any) {
   const colorScheme = useColorScheme();
   return (
     <View>
@@ -36,7 +36,9 @@ export default function AppleSignInButton() {
                 idToken: identityToken!,
                 rawNonce: nonce
             });
-            signInWithCredential(auth, credential);
+            signInWithCredential(auth, credential).then(() => {
+              navigation.navigate('UserCreate')
+            });
             // Successful sign in is handled by firebase.auth().onAuthStateChanged
         })
           } catch (e: any) {

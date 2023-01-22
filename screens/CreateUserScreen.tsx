@@ -9,7 +9,7 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { useState } from 'react';
 import useColorScheme from '../hooks/useColorScheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Layout from '../constants/Layout';
+import * as ImagePicker from 'expo-image-picker';
 
 interface DropDownProps {
   setSelected: React.Dispatch<React.SetStateAction<any>>;
@@ -20,24 +20,18 @@ interface DropDownProps {
   title?: string;
 }
 
-import { Button, Image } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-
 
 const DropDown = ({setSelected, data, title}:DropDownProps) => {
   const colorScheme = useColorScheme();
-
   const BoxColor = colorScheme === "dark" ? "white":"#ccc";
   
-  
-
   return(
     <View style={{marginVertical: 10}}>
       <Text style={{paddingLeft: 5}}>{title}</Text>
       <SelectList 
           setSelected={(val: any) => setSelected(val)} 
           dropdownStyles={{backgroundColor:  BoxColor}}
-          boxStyles={{backgroundColor: BoxColor, width: 250}}
+          boxStyles={{backgroundColor: BoxColor, width: 250, height: 40}}
           data={data} 
           save="value"
       />
@@ -100,7 +94,7 @@ export default function TabTwoScreen() {
           'https://news.ucsc.edu/2020/07/images/strongslugredwood4001.jpg',
         }}
         >
-        <Accessory size={40} color="black" />
+        <Accessory onPress={pickImage} size={40} color="black" />
       </Avatar>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <View>

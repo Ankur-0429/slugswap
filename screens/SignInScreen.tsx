@@ -1,14 +1,18 @@
-import { StyleSheet, Image, FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Image } from 'react-native';
 import AppleSignInButton from '../components/AppleSignInButton';
 import GoogleSignInButton from '../components/GoogleSignInButton';
 import { Text, View } from '../components/Themed';
-import UserProfile from '../components/UserProfile';
-import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function SignInScreen() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <UserProfile />
+        <Text style={styles.title}>SlugSwap</Text>
+        <Image source={require("../assets/images/slugIcon.jpeg")} style={{width: 200, height: 200, borderRadius: 100, marginVertical: 10}} />
+        <Text style={styles.subtitle}>Meal Plan Sharing made easy</Text>
+        <GoogleSignInButton navigation={navigation} />
+        <AppleSignInButton navigation={navigation} />
     </View>
   );
 }

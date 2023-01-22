@@ -7,7 +7,15 @@
     "icon": "./assets/images/icon.png",
     "scheme": "com.aankur01.slugswap",
     "userInterfaceStyle": "automatic",
-    "plugins": ["expo-apple-authentication"],
+    "plugins": [
+      "expo-apple-authentication",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -16,9 +24,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.aankur01.slugswap",
