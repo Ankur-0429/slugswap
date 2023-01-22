@@ -7,8 +7,10 @@ import { Feather, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useAtom } from 'jotai';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
+import { ifSignedIn } from '../constants/Atoms';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -39,11 +41,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
 
-  const ifSignedIn = false;
+  const [checkIfSignedIn] = useAtom(ifSignedIn);
 
   return (
     <Stack.Navigator>
-      {ifSignedIn
+      {checkIfSignedIn
       ?
       <Stack.Group>
         <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerTransparent: true, headerBlurEffect: 'dark', headerTitle: '', headerBackVisible: false}} />

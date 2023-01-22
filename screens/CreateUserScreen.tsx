@@ -22,6 +22,7 @@ import { guest } from '../constants/Profile';
 import { Button } from 'react-native-paper';
 import convertToURL from '../constants/ConvertToURL';
 import { getAuth } from "firebase/auth";
+import createUser from '../api/createUser';
 
 const DropDown = ({setSelected, data, title}:DropDownProps) => {
   const colorScheme = useColorScheme();
@@ -68,7 +69,8 @@ const SlugPointData = [
 
 export default function TabTwoScreen() {
   const [college, setCollege] = useState(undefined as undefined | string);
-  const [ifSendSlugPoints, setIfSendSlugPoints] = useState(undefined as undefined | boolean);
+  const [name, setName] = useState(undefined as undefined | string);
+  const [ifSendSlugPoints, setIfSendSlugPoints] = useState(undefined as undefined | string);
   const [bio, setBio] = useState(undefined as undefined | string);
   const [slugPoints, setSlugPoints] = useState(undefined as undefined | string);
   const colorSheme = useColorScheme();
@@ -76,6 +78,7 @@ export default function TabTwoScreen() {
   const auth = getAuth();
   const user = auth.currentUser;
 
+  const disabled = bio === undefined || name === undefined || name === "" || college === undefined || ifSendSlugPoints === undefined || slugPoints === undefined || slugPoints === '' || bio === '' || college === '';
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -121,6 +124,18 @@ export default function TabTwoScreen() {
           keyboardType="twitter"
         />
       </View>
+      <View>
+        <Text style={{paddingLeft: 8}}>Full Name</Text>
+        <TextInput
+          style={[styles.input, {backgroundColor: colorSheme === "dark" ? "#1c1c1e":"#ccc", color: text_color}]}
+          selectionColor={text_color}
+          placeholderTextColor={text_color}
+          onChangeText={(text) => {setName(text)}}
+          value={name}
+          placeholder="Name here"
+          keyboardType="twitter"
+        />
+      </View>
       <DropDown setSelected={setCollege} data={Collegedata} title={'College Affiliation'} />
       <DropDown setSelected={setIfSendSlugPoints} data={SlugPointData} title={'Send or Receive SlugPoints?'} />
       <View>
@@ -134,7 +149,10 @@ export default function TabTwoScreen() {
           keyboardType="numeric"
         />
       </View>
-      <Button style={{marginHorizontal: 20, marginTop: 10, width: 250, borderRadius: 10}} disabled={bio === undefined || college === undefined || ifSendSlugPoints === undefined || slugPoints === undefined || slugPoints === '' || bio === '' || college === ''} buttonColor="#1DA1F2" mode="contained" onPress={() => {convertToURL(image, user!.uid)}}>
+      <Button style={{marginHorizontal: 20, marginTop: 10, width: 250, borderRadius: 10}} disabled={disabled} buttonColor="#1DA1F2" mode="contained" onPress={async () => {
+        const url = await convertToURL(image, user!.uid)
+        await createUser({name: name || '', bio: bio || '', collegeAffiliation: college || '', ifSendSlugPoints: ifSendSlugPoints || '', slugPoints: slugPoints as any || 0, uid: user!.uid, image: url})
+        }}>
         Submit
       </Button>
     </KeyboardAwareScrollView>
