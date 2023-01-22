@@ -6,6 +6,7 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { useState } from 'react';
 import useColorScheme from '../hooks/useColorScheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import uuid from 'react-native-uuid';
 
 interface DropDownProps {
   setSelected: React.Dispatch<React.SetStateAction<any>>;
@@ -156,9 +157,9 @@ export default function TabTwoScreen() {
       </View>
       <Button loading={submitButtonLoading} style={{marginHorizontal: 20, marginTop: 10, width: 250, borderRadius: 10}} disabled={disabled} buttonColor="#1DA1F2" mode="contained" onPress={async () => {
         setSubmitButtonLoading(true);
-        const url = await convertToURL(image, user!.uid)
+        const url = await convertToURL(image, uuid.v4() as string)
         await createUser({name: name || '', bio: bio || '', collegeAffiliation: college || '', ifSendSlugPoints: ifSendSlugPoints || '', slugPoints: slugPoints as any || 0, uid: user!.uid, image: url})
-        setCurrentUser({name: name || '', bio: bio || '', collegeAffiliation: college || '', ifSendSlugPoints: ifSendSlugPoints || '', slugPoints: slugPoints as any || 0, image: url});
+        setCurrentUser({name: name || '', bio: bio || '', collegeAffiliation: college || '', ifSendSlugPoints: ifSendSlugPoints || '', slugPoints: slugPoints as any || 0, image: url || guest});
         setSubmitButtonLoading(false);
         setIfSignedIn(true);
         }}>

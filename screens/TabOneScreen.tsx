@@ -1,34 +1,36 @@
-import { collection, Firestore, getFirestore } from 'firebase/firestore/lite';
+import { collection, getFirestore, onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Image, FlatList } from 'react-native';
 import { Text, View } from '../components/Themed';
 import UserProfile from '../components/UserProfile';
 import { RootTabScreenProps } from '../types';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-
-
-const tempData = [{
-  profileUri: 'https://news.ucsc.edu/2020/07/images/strongslugredwood4001.jpg',
-  name: 'Ankur Ahir',
-  bio: 'testing this out...',
-  collegeAffiliation: 'Crown',
-  slugPoints: 2323,
-  wantsSlugPoints: false,
-}]
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
 
   const firestore = getFirestore();
-  const userRef = collection(firestore, 'user');
-  // const [data] = useCollectionData(userRef);
-  // console.log(data);
+  const userRef = collection(firestore, 'users');
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(userRef, (snapshot) => {
+      const d = [] as any;
+      snapshot.docs.forEach((doc) => {
+        d.push({...doc.data(), id: doc.id})
+      })
+      setData(d);
+      console.log(d);
+    })
+    return unsubscribe;
+}, []);
+
   return (
     <View style={styles.container}>
       <FlatList 
         contentContainerStyle={{marginVertical: 20, marginTop: 150}}
-        data={tempData}
-        renderItem={({item}) => {
+        data={data}
+        renderItem={({item}: any) => {
           return (
-            <UserProfile profileUri={item.profileUri} name={item.name} bio={item.bio} collegeAffiliation={item.collegeAffiliation} slugPoints={item.slugPoints} wantsSlugPoints={item.wantsSlugPoints} />
+            <UserProfile profileUri={item.image} name={item.name} bio={item.bio} collegeAffiliation={item.collegeAffiliation} slugPoints={item.slugPoints} wantsSlugPoints={item.ifSendSlugPoints} />
           )
         }}
       />

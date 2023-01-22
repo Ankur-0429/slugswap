@@ -17,7 +17,7 @@ const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wan
     const colorScheme = useColorScheme();
     const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
     return (
-      <View>
+      <View style={{marginBottom: 20}}>
         <View style={styles.container}>
             <View style={{backgroundColor: boxColor, borderRadius: 10, width: 350, alignSelf: 'center', paddingVertical: 10}}>
               <View style={{flexDirection: 'row', backgroundColor: boxColor}}>
@@ -33,7 +33,7 @@ const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wan
                 {bio}
               </Text>
               <Button style={{marginHorizontal: 20, marginTop: 10}} buttonColor="#1DA1F2" icon={wantsSlugPoints ? "currency-usd":"send"} mode="contained" onPress={() => console.log('Pressed')}>
-                {wantsSlugPoints ? "Request SlugPoints":"Give Away SlugPoints"}
+                {wantsSlugPoints ? "Request SlugPoints":"Give SlugPoints"}
               </Button>
             </View>
         </View>
