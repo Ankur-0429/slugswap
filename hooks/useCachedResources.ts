@@ -17,11 +17,13 @@ export default function useCachedResources() {
       try {
         SplashScreen.preventAutoHideAsync();
         const auth = getAuth();
-        const user = auth.currentUser;
-        if (user?.uid) {
-          const check = await me(user.uid);
-          setIfSignedIn(check);
-        }
+        auth.onAuthStateChanged(async (user) => {
+          if (user?.uid) {
+            const check = await me(user.uid);
+            setIfSignedIn(check);
+          }
+        })
+        
 
         // Load fonts
         await Font.loadAsync({
