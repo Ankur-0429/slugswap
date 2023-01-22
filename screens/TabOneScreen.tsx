@@ -1,8 +1,10 @@
 import { collection, getFirestore, onSnapshot } from 'firebase/firestore';
+import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Image, FlatList } from 'react-native';
 import { Text, View } from '../components/Themed';
 import UserProfile from '../components/UserProfile';
+import { currentUser } from '../constants/Atoms';
 import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
@@ -10,6 +12,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   const firestore = getFirestore();
   const userRef = collection(firestore, 'users');
   const [data, setData] = useState([]);
+  const [currUser] = useAtom(currentUser);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(userRef, (snapshot) => {
@@ -23,14 +26,15 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     return unsubscribe;
 }, []);
 
+
   return (
     <View style={styles.container}>
       <FlatList 
         contentContainerStyle={{marginVertical: 20, marginTop: 150}}
-        data={data}
+        data={data.filter((e:any) => {return (e.uid != currUser?.uid)})}
         renderItem={({item}: any) => {
           return (
-            <UserProfile profileUri={item.image} name={item.name} bio={item.bio} collegeAffiliation={item.collegeAffiliation} slugPoints={item.slugPoints} wantsSlugPoints={item.ifSendSlugPoints} />
+            <UserProfile profileUri={item.image} name={item.name} bio={item.bio} collegeAffiliation={item.collegeAffiliation} slugPoints={item.slugPoints} wantsSlugPoints={item.ifSendSlugPoints} uid={item.uid} />
           )
         }}
       />

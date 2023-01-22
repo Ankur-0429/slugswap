@@ -3,6 +3,7 @@ import { View, Text } from "./Themed"
 import { StyleSheet, Image } from "react-native";
 import useColorScheme from "../hooks/useColorScheme";
 import { Feather } from "@expo/vector-icons";
+import follow from "../api/follow";
 
 interface UserProfileProps {
   profileUri: string;
@@ -11,9 +12,10 @@ interface UserProfileProps {
   collegeAffiliation: string;
   slugPoints: number;
   wantsSlugPoints: boolean;
+  uid: string;
 }
 
-const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wantsSlugPoints}: UserProfileProps) => {
+const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wantsSlugPoints, uid}: UserProfileProps) => {
     const colorScheme = useColorScheme();
     const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
     return (
@@ -32,7 +34,7 @@ const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wan
               <Text style={styles.paragraph}>
                 {bio}
               </Text>
-              <Button style={{marginHorizontal: 20, marginTop: 10}} buttonColor="#1DA1F2" icon={wantsSlugPoints ? "currency-usd":"send"} mode="contained" onPress={() => console.log('Pressed')}>
+              <Button style={{marginHorizontal: 20, marginTop: 10}} buttonColor="#1DA1F2" icon={wantsSlugPoints ? "currency-usd":"send"} mode="contained" onPress={() => {follow(uid)}}>
                 {wantsSlugPoints ? "Request SlugPoints":"Give SlugPoints"}
               </Button>
             </View>

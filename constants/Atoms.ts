@@ -7,6 +7,7 @@ interface userType {
     image?: string;
     name: string;
     slugPoints: number;
+    uid: string;
 }
 
 export const ifSignedIn = atom(false);

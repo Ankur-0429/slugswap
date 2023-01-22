@@ -159,7 +159,7 @@ export default function TabTwoScreen() {
         setSubmitButtonLoading(true);
         const url = await convertToURL(image, uuid.v4() as string)
         await createUser({name: name || '', bio: bio || '', collegeAffiliation: college || '', ifSendSlugPoints: ifSendSlugPoints || '', slugPoints: slugPoints as any || 0, uid: user!.uid, image: url})
-        setCurrentUser({name: name || '', bio: bio || '', collegeAffiliation: college || '', ifSendSlugPoints: ifSendSlugPoints || '', slugPoints: slugPoints as any || 0, image: url || guest});
+        setCurrentUser({name: name || '', bio: bio || '', collegeAffiliation: college || '', ifSendSlugPoints: ifSendSlugPoints || '', slugPoints: slugPoints as any || 0, image: url || guest, uid: user!.uid});
         setSubmitButtonLoading(false);
         setIfSignedIn(true);
         }}>
