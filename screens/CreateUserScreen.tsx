@@ -1,6 +1,5 @@
-import { KeyboardAvoidingView, Platform, StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Avatar, Accessory } from 'react-native-elements';
 
@@ -9,9 +8,6 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { useState } from 'react';
 import useColorScheme from '../hooks/useColorScheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import * as ImagePicker from 'expo-image-picker';
-import { guest } from '../constants/Profile';
-import { Button } from 'react-native-paper';
 
 interface DropDownProps {
   setSelected: React.Dispatch<React.SetStateAction<any>>;
@@ -22,18 +18,28 @@ interface DropDownProps {
   title?: string;
 }
 
+import * as ImagePicker from 'expo-image-picker';
+import { FontAwesome } from '@expo/vector-icons';
+import { guest } from '../constants/Profile';
+import { Button } from 'react-native-paper';
+
 
 const DropDown = ({setSelected, data, title}:DropDownProps) => {
   const colorScheme = useColorScheme();
-  const BoxColor = colorScheme === "dark" ? "white":"#ccc";
+  const BoxColor = colorScheme === "dark" ? "#1c1c1e":"#ccc";
   
   return(
     <View style={{marginVertical: 10}}>
       <Text style={{paddingLeft: 5}}>{title}</Text>
-      <SelectList 
+      <SelectList
           setSelected={(val: any) => setSelected(val)} 
-          dropdownStyles={{backgroundColor:  BoxColor}}
-          boxStyles={{backgroundColor: BoxColor, width: 250}}
+          dropdownStyles={{backgroundColor:  BoxColor, borderColor: 'transparent'}}
+          arrowicon={<FontAwesome name="chevron-down" size={12} color={colorScheme === "dark" ? "white":"black"} />} 
+          searchicon={<FontAwesome name="search" size={12} style={{marginRight: 5}} color={colorScheme === "dark" ? "white":"black"} />} 
+          closeicon={<FontAwesome name="close" size={12} color={colorScheme === "dark" ? "white":"black"} />}
+          inputStyles={{color: colorScheme === "dark" ? "white":"black"}}
+          dropdownTextStyles={{color: colorScheme === "dark" ? "white":"black"}}
+          boxStyles={{backgroundColor: BoxColor, borderColor: 'transparent', width: 250}}
           data={data} 
           save="value"
       />
@@ -62,8 +68,8 @@ const SlugPointData = [
 ]
 
 export default function TabTwoScreen() {
-  const [college, setCollege] = useState(null as null | string);
-  const [ifSendSlugPoints, setIfSendSlugPoints] = useState(null as null | boolean);
+  const [college, setCollege] = useState(undefined as undefined | string);
+  const [ifSendSlugPoints, setIfSendSlugPoints] = useState(undefined as undefined | boolean);
   const [bio, setBio] = useState(undefined as undefined | string);
   const [slugPoints, setSlugPoints] = useState(undefined as undefined | string);
   const colorSheme = useColorScheme();
@@ -81,6 +87,8 @@ export default function TabTwoScreen() {
       setImage(result.assets[0].uri);
     }
   };
+
+  const text_color = colorSheme === "dark" ? "white":"black";
 
   return (
     <View style={styles.container}>
@@ -102,9 +110,9 @@ export default function TabTwoScreen() {
       <View>
         <Text style={{paddingLeft: 8}}>Bio</Text>
         <TextInput
-          style={[styles.input, {backgroundColor: colorSheme === "dark" ? "white":"#ccc"}]}
-          selectionColor="black"
-          placeholderTextColor="black"
+          style={[styles.input, {backgroundColor: colorSheme === "dark" ? "#1c1c1e":"#ccc", color: text_color}]}
+          selectionColor={text_color}
+          placeholderTextColor={text_color}
           onChangeText={(text) => {setBio(text)}}
           value={bio}
           placeholder="What's happening?"
@@ -116,9 +124,9 @@ export default function TabTwoScreen() {
       <View>
         <Text style={{paddingLeft: 8}}>How many SlugPoints do you have?</Text>
         <TextInput
-          style={[styles.input, {backgroundColor: colorSheme === "dark" ? "white":"#ccc"}]}
-          selectionColor="black"
-          placeholderTextColor="black"
+          style={[styles.input, {backgroundColor: colorSheme === "dark" ? "#1c1c1e":"#ccc", color: text_color}]}
+          selectionColor={text_color}
+          placeholder="0"
           onChangeText={(text) => {setSlugPoints(text)}}
           value={slugPoints}
           keyboardType="numeric"
