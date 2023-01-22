@@ -13,13 +13,15 @@ interface createUserProps {
 
 const createUser = async (props: createUserProps) => {
   const db = getFirestore();
+  let date = new Date().toJSON();
   await setDoc(doc(db, "users", props.uid), {
     name: props.name,
     image: props.image || guest,
     collegeAffiliation: props.collegeAffiliation,
     ifSendSlugPoints: props.ifSendSlugPoints === "I want to send slugPoints",
     slugPoints: props.slugPoints,
-    bio: props.bio
+    bio: props.bio,
+    dateCreated: date,
   });
 };
 

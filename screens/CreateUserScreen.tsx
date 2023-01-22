@@ -23,6 +23,8 @@ import { Button } from 'react-native-paper';
 import convertToURL from '../constants/ConvertToURL';
 import { getAuth } from "firebase/auth";
 import createUser from '../api/createUser';
+import { useAtom } from 'jotai';
+import { currentUser, ifSignedIn } from '../constants/Atoms';
 
 const DropDown = ({setSelected, data, title}:DropDownProps) => {
   const colorScheme = useColorScheme();
@@ -75,8 +77,11 @@ export default function TabTwoScreen() {
   const [slugPoints, setSlugPoints] = useState(undefined as undefined | string);
   const colorSheme = useColorScheme();
   const [image, setImage] = useState(null as any);
+  const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
   const auth = getAuth();
   const user = auth.currentUser;
+  const [,setIfSignedIn] = useAtom(ifSignedIn);
+  const [,setCurrentUser] = useAtom(currentUser);
 
   const disabled = bio === undefined || name === undefined || name === "" || college === undefined || ifSendSlugPoints === undefined || slugPoints === undefined || slugPoints === '' || bio === '' || college === '';
 
@@ -149,9 +154,13 @@ export default function TabTwoScreen() {
           keyboardType="numeric"
         />
       </View>
-      <Button style={{marginHorizontal: 20, marginTop: 10, width: 250, borderRadius: 10}} disabled={disabled} buttonColor="#1DA1F2" mode="contained" onPress={async () => {
+      <Button loading={submitButtonLoading} style={{marginHorizontal: 20, marginTop: 10, width: 250, borderRadius: 10}} disabled={disabled} buttonColor="#1DA1F2" mode="contained" onPress={async () => {
+        setSubmitButtonLoading(true);
         const url = await convertToURL(image, user!.uid)
         await createUser({name: name || '', bio: bio || '', collegeAffiliation: college || '', ifSendSlugPoints: ifSendSlugPoints || '', slugPoints: slugPoints as any || 0, uid: user!.uid, image: url})
+        setCurrentUser({name: name || '', bio: bio || '', collegeAffiliation: college || '', ifSendSlugPoints: ifSendSlugPoints || '', slugPoints: slugPoints as any || 0, image: url});
+        setSubmitButtonLoading(false);
+        setIfSignedIn(true);
         }}>
         Submit
       </Button>

@@ -1,9 +1,9 @@
+import { collection, Firestore, getFirestore } from 'firebase/firestore/lite';
 import { StyleSheet, Image, FlatList } from 'react-native';
-import AppleSignInButton from '../components/AppleSignInButton';
-import GoogleSignInButton from '../components/GoogleSignInButton';
 import { Text, View } from '../components/Themed';
 import UserProfile from '../components/UserProfile';
 import { RootTabScreenProps } from '../types';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 
 const tempData = [{
@@ -16,6 +16,11 @@ const tempData = [{
 }]
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+
+  const firestore = getFirestore();
+  const userRef = collection(firestore, 'user');
+  // const [data] = useCollectionData(userRef);
+  // console.log(data);
   return (
     <View style={styles.container}>
       <FlatList 

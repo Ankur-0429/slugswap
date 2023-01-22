@@ -5,12 +5,13 @@
  */
 import { Feather, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAtom } from 'jotai';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
-import { ifSignedIn } from '../constants/Atoms';
+import { Avatar } from 'react-native-elements';
+import { currentUser, ifSignedIn } from '../constants/Atoms';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -33,6 +34,15 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   );
 }
 
+const headerRight = () => {
+  const [currUser] =  useAtom(currentUser);
+  console.log(currUser);
+  const navigation = useNavigation();
+  return (
+    <Avatar onPress={() => {navigation.navigate('Modal')}} rounded source={{uri: currUser?.image}} />
+  )
+}
+
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
@@ -48,7 +58,7 @@ function RootNavigator() {
       {checkIfSignedIn
       ?
       <Stack.Group>
-        <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerTransparent: true, headerBlurEffect: 'dark', headerTitle: '', headerBackVisible: false}} />
+        <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerTransparent: true, headerBlurEffect: 'dark', headerTitle: '', headerBackVisible: false, headerRight: headerRight}} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="Modal" component={ModalScreen} />

@@ -4,7 +4,11 @@ const me = async (uid: string) => {
     const db = getFirestore();
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
-    return docSnap.exists();
+    
+    if (docSnap.exists()) {
+      return docSnap.data();
+    }
+    return false;
 }
 
 export default me;

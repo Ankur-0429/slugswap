@@ -5,11 +5,12 @@ import { getAuth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import me from '../api/me';
 import {useAtom} from 'jotai';
-import { ifSignedIn } from '../constants/Atoms';
+import { currentUser, ifSignedIn } from '../constants/Atoms';
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [, setIfSignedIn] = useAtom(ifSignedIn);
+  const [, setCurrentUser] = useAtom(currentUser);
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
@@ -20,7 +21,10 @@ export default function useCachedResources() {
         auth.onAuthStateChanged(async (user) => {
           if (user?.uid) {
             const check = await me(user.uid);
-            setIfSignedIn(check);
+            if (check !== false) {
+              setIfSignedIn(true);
+              setCurrentUser(check as any);
+            }
           }
         })
         
