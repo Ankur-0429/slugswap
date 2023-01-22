@@ -2,7 +2,7 @@
 import { View, Text } from '../components/Themed';
 import useColorScheme from '../hooks/useColorScheme';
 import useConnection from '../hooks/useConnection';
-import useUser from '../hooks/useUsert';
+import useUser from '../hooks/useUser';
 import { Button } from "react-native-paper";
 import { StyleSheet, Image, FlatList, ListRenderItem } from "react-native";
 import { Feather } from "@expo/vector-icons";

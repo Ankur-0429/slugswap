@@ -1,5 +1,5 @@
 import { getFirestore, getDoc, doc } from "firebase/firestore/lite";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createUserProps } from "../api/createUser";
 
 export default function useUser(uid: string) {
