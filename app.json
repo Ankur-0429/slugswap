@@ -4,7 +4,7 @@
     "slug": "slugswap",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/slugIcon.jpeg",
     "scheme": "com.aankur01.slugswap",
     "userInterfaceStyle": "automatic",
     "plugins": [
@@ -17,7 +17,7 @@
       ]
     ],
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/slugIcon.jpeg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -33,12 +33,12 @@
     "android": {
       "package": "com.aankur01.slugswap",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/slugIcon.jpeg",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/slugIcon.jpeg"
     }
   }
 }

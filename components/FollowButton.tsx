@@ -1,9 +1,8 @@
-import { getAuth } from "firebase/auth";
-import { useAtom } from "jotai";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Button } from "react-native-paper";
 import follow from "../api/follow";
-import { currentUser } from "../constants/Atoms";
+import Colors from "../constants/Colors";
 import useConnection from "../hooks/useConnection";
 
 interface FollowButtonProps {
@@ -38,12 +37,17 @@ const FollowButton = ({wantsSlugPoints, uid}: FollowButtonProps) => {
     const text = get_text();
     const icon = get_icon();
 
+    const navigation = useNavigation();
+
     return (
-        <Button loading={loading} buttonColor={text === "Requested" ? "grey":"#1DA1F2"} icon={icon} mode="contained" onPress={async () => {
+        <Button loading={loading} buttonColor={text === "Requested" ? "grey":Colors.constants.primary} icon={icon} mode="contained" onPress={async () => {
             if (text === "Give SlugPoints" || text === "Request SlugPoints") {
                 setLoading(true);
                 await follow(uid);
                 setLoading(false);
+            }
+            if (text === "Message") {
+                navigation.navigate("message", {uid: uid})
             }
         }}>
             {text}

@@ -62,7 +62,7 @@ function RootNavigator() {
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Screen name="message" component={MessageScreen} initialParams={{uid: ''}} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
-          <Stack.Screen name="Modal" component={ModalScreen} />
+          <Stack.Screen name="Modal" options={{headerTitle: 'Edit Profile'}} component={ModalScreen} />
         </Stack.Group>
       </Stack.Group>
       :

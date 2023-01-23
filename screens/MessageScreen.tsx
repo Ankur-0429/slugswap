@@ -16,21 +16,13 @@ import { getFirestore, where, collection, query, onSnapshot } from "firebase/fir
 import { useAtom } from "jotai";
 import { currentUser } from "../constants/Atoms";
 import { useRoute } from "@react-navigation/native";
-
-// TODO: Figure out how to implement this in backend
-const users = [
-  {
-    id: uuid.v4() as string,
-    uid: "6kFc5Mv8qyYYH0X4QHrkvz9Dqnh1",
-    profileUri: undefined,
-    username: "Aankur01",
-  },
-];
+import useUser from "../hooks/useUser";
 
 const MessageScreen = () => {
 
   const colorScheme = useColorScheme();
   const [currUser] = useAtom(currentUser);
+  const {user} = useUser(currUser!.uid);
 
   const route = useRoute();
   // @ts-ignore
@@ -68,7 +60,7 @@ const MessageScreen = () => {
           backgroundColor: Colors[colorScheme].background,
         },
       ]}>
-      <ImageView postUri={[{url: postUri}]} ifVisible={ifVisible} setIfVisible={setIfVisible}  />
+      {/* <ImageView postUri={[{url: postUri}]} ifVisible={ifVisible} setIfVisible={setIfVisible}  /> */}
       <FlatList
         data={messages.sort(function(a,b){
             return new Date(b.createdAt) as any - (new Date(a.createdAt) as any);
@@ -92,7 +84,7 @@ const MessageScreen = () => {
           }
 
           return (
-            <ChatMessage key={item.id} message={item} type={type} users={users[0]} setPostUri={setPostUri} setIfVisible={setIfVisible} />
+            <ChatMessage key={item.id} message={item} type={type} users={user} setPostUri={setPostUri} setIfVisible={setIfVisible} />
           );
         }}
         inverted
