@@ -16,8 +16,6 @@ import {
 // import {...} from "firebase/functions";
 // import {...} from "firebase/storage";
 
-console.log(apiKey, authDomain, projectId, storageBucket, measurementId, messagingSenderId, appId)
-
 // Initialize Firebase
 const firebaseConfig = {
   apiKey,

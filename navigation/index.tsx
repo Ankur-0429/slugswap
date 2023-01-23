@@ -16,11 +16,11 @@ import { currentUser, ifSignedIn } from '../constants/Atoms';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import CreateUserScreen from '../screens/CreateUserScreen';
+import MessageScreen from '../screens/MessageScreen';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import SignInScreen from '../screens/SignInScreen';
 import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -36,7 +36,6 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 
 const headerRight = () => {
   const [currUser] =  useAtom(currentUser);
-  console.log(currUser);
   const navigation = useNavigation();
   return (
     <Avatar onPress={() => {navigation.navigate('Modal')}} rounded source={{uri: currUser?.image}} />
@@ -115,7 +114,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabTwo"
-        component={TabTwoScreen}
+        component={MessageScreen}
         options={{
           title: 'Tab Two',
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="message-text-outline" size={30} color={color} />,

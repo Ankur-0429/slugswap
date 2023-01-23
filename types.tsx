@@ -26,6 +26,38 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
   Screen
 >;
 
+export type Message = {
+  id: string,
+  uid: string,
+  attachmentType: "none" | "image",
+  content: string,
+  createdAt: string,
+  fileUri?: string,
+}
+
+export type UserType = {
+  id: string;
+  name: string;
+  username: string;
+  image?: ImageType;
+}
+
+export type ImageType = {
+  url: string;
+  mediaType: string;
+}
+
+export type PostType = {
+  id: string;
+  user: UserType;
+  createdAt: string;
+  content: string;
+  image?: ImageType;
+  numberOfComments: number;
+  numberOfLikes: number;
+  numberOfWayPoints: number;
+}
+
 export type RootTabParamList = {
   TabOne: undefined;
   TabTwo: undefined;

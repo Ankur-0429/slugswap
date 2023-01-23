@@ -21,7 +21,6 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         d.push({...doc.data(), id: doc.id})
       })
       setData(d);
-      console.log(d);
     })
     return unsubscribe;
 }, []);
