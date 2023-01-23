@@ -9,13 +9,13 @@ import InputBox from "../components/InputBox";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import { Message } from "../types";
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 import "react-native-get-random-values";
 import uuid from "react-native-uuid";
 import ImageView from "./ImageViewScreen";
 import { getFirestore, where, collection, query, onSnapshot } from "firebase/firestore";
 import { useAtom } from "jotai";
 import { currentUser } from "../constants/Atoms";
+import { useRoute } from "@react-navigation/native";
 
 // TODO: Figure out how to implement this in backend
 const users = [
@@ -32,16 +32,16 @@ const MessageScreen = () => {
   const colorScheme = useColorScheme();
   const [currUser] = useAtom(currentUser);
 
-  const message_uid = "sNos1ZWx3ge8QMQH6R4LOFqeW1r1";
-
+  const route = useRoute();
+  // @ts-ignore
+  const message_uid = route.params!.uid as string;
 
   const firestore = getFirestore();
   const dmRef = collection(firestore, "dms");
   const q =  query(dmRef, where("users", "array-contains-any", [message_uid, currUser?.uid]))
-  const [data, setData] = useCollectionData(q);
 
   const [messages, setMessages] = useState([] as Message[]);
-  
+  console.log(messages);
   useEffect(() => {
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const d = [] as any;
@@ -70,12 +70,9 @@ const MessageScreen = () => {
       ]}>
       <ImageView postUri={[{url: postUri}]} ifVisible={ifVisible} setIfVisible={setIfVisible}  />
       <FlatList
-        data={messages
-          .sort(function (a, b) {
-            return a.createdAt <= b.createdAt
-              ? 1
-              : 0;
-          })}
+        data={messages.sort(function(a,b){
+            return new Date(b.createdAt) as any - (new Date(a.createdAt) as any);
+        })}
         renderItem={({ item, index }) => {
           let type: "single" | "start" | "middle" | "end";
           const i = index;

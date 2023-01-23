@@ -7,6 +7,7 @@ import { Button } from "react-native-paper";
 import { StyleSheet, Image, FlatList, ListRenderItem } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import follow from '../api/follow';
+import { useNavigation } from '@react-navigation/native';
 
 interface DirectMessageUserProps {
   uid: string;
@@ -17,6 +18,7 @@ const DirectMessageUser = ({uid, index}: DirectMessageUserProps) => {
   const {user} = useUser(uid);
   const colorScheme = useColorScheme();
   const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
+  const navigatio = useNavigation();
   
   return (
     <View style={{marginBottom: 20}}>
@@ -34,7 +36,7 @@ const DirectMessageUser = ({uid, index}: DirectMessageUserProps) => {
                   <Text style={{marginLeft: 'auto', marginRight: 5, textAlignVertical: 'center', fontWeight: 'bold'}}>{user?.collegeAffiliation}</Text>
                   <Feather name="home" size={18} color={colorScheme === "dark" ? "white": "black"} style={{marginRight: 10}} />
                 </View>
-                <Button mode='text' style={{marginLeft: 23}} textColor='#1DA1F2'>
+                <Button mode='text' style={{marginLeft: 23}} textColor='#1DA1F2' onPress={() => {navigatio.navigate('message', {uid: uid})}}>
                   Message
                 </Button>
               </View>

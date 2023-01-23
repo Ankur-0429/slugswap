@@ -21,6 +21,7 @@ import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import SignInScreen from '../screens/SignInScreen';
 import TabOneScreen from '../screens/TabOneScreen';
+import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -59,6 +60,7 @@ function RootNavigator() {
       <Stack.Group>
         <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerTransparent: true, headerBlurEffect: 'dark', headerTitle: '', headerBackVisible: false, headerRight: headerRight}} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+        <Stack.Screen name="message" component={MessageScreen} initialParams={{uid: ''}} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="Modal" component={ModalScreen} />
         </Stack.Group>
@@ -114,7 +116,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabTwo"
-        component={MessageScreen}
+        component={TabTwoScreen}
         options={{
           title: 'Tab Two',
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="message-text-outline" size={30} color={color} />,

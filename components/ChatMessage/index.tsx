@@ -1,15 +1,15 @@
 import moment from "moment";
-import React, { useRef } from "react";
+import React from "react";
 import Colors from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
 import { Message } from "../../types";
 import { View, Text } from "../Themed";
 import styles from "./styles";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
 import util from "./utils";
 import { useAtom } from "jotai";
 import { currentUser } from "../../constants/Atoms";
+import {Image} from 'react-native';
 
 export type ChatMessageProps = {
   message: Message;
@@ -28,10 +28,6 @@ const ChatMessage = (props: ChatMessageProps) => {
 
   const { borderBottomLeftRadius, borderBottomRightRadius, borderTopLeftRadius, borderTopRightRadius } = util(type, isMyMessage());
 
-  const AnimatedTouchableWithoutFeedback = Animated.createAnimatedComponent(
-    TouchableWithoutFeedback
-  );
-
   const colorScheme = useColorScheme();
   const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
 
@@ -39,7 +35,7 @@ const ChatMessage = (props: ChatMessageProps) => {
     <View style={styles.container}>
       <View style={{ alignItems: isMyMessage() ? "flex-end" : "flex-start" }}>
         {message.attachmentType === "none" && (
-          <Animated.View
+          <View
             style={[
               styles.messageBox,
               {
@@ -72,11 +68,11 @@ const ChatMessage = (props: ChatMessageProps) => {
               }}>
               {moment(message.createdAt).fromNow()}
             </Text>
-          </Animated.View>
+          </View>
         )}
         {message.attachmentType === "image" && (
           <View>
-            <AnimatedTouchableWithoutFeedback
+            <TouchableWithoutFeedback
               onPress={()=>{setIfVisible(true); setPostUri(message.fileUri)}}
               style={[
                 {
@@ -87,18 +83,18 @@ const ChatMessage = (props: ChatMessageProps) => {
                   alignSelf: isMyMessage() ? "flex-end" : "flex-start",
                 }
               ]}>
-              <Animated.Image
+              <Image
                 source={{ uri: message.fileUri }}
-                style={[
+                style={
                   {
                     width: 200,
                     height: 200,
                     alignSelf: "center",
                     overflow: "hidden",
                   }
-                ]}
+                }
               />
-            </AnimatedTouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
           </View>
         )}
       </View>

@@ -70,7 +70,7 @@ const SlugPointData = [
   {key:'2', value:'I want to send slugPoints'}
 ]
 
-export default function TabTwoScreen() {
+export default function CreateUserScreen() {
   const [college, setCollege] = useState(undefined as undefined | string);
   const [name, setName] = useState(undefined as undefined | string);
   const [ifSendSlugPoints, setIfSendSlugPoints] = useState(undefined as undefined | string);

@@ -19,6 +19,7 @@ export type RootStackParamList = {
   NotFound: undefined;
   Register: undefined;
   UserCreate: undefined;
+  message: {uid: string};
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
