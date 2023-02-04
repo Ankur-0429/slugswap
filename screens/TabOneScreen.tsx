@@ -30,7 +30,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     <View style={styles.container}>
       <FlatList 
         contentContainerStyle={{marginVertical: 20, marginTop: 150}}
-        data={data.filter((e:any) => {return (e.uid != currUser?.uid)})}
+        data={data.filter((e:any) => {return (e.uid != (currUser?.uid || ""))})}
         renderItem={({item}: any) => {
           return (
             <UserProfile profileUri={item.image} name={item.name} bio={item.bio} collegeAffiliation={item.collegeAffiliation} slugPoints={item.slugPoints} wantsSlugPoints={item.ifSendSlugPoints} uid={item.uid} />

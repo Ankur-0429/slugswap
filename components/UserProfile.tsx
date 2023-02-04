@@ -1,11 +1,9 @@
-import { Button } from "react-native-paper";
 import { View, Text } from "./Themed"
 import { StyleSheet, Image } from "react-native";
-import useColorScheme from "../hooks/useColorScheme";
-import { Feather } from "@expo/vector-icons";
-import follow from "../api/follow";
 import FollowButton from "./FollowButton";
 import Colors from "../constants/Colors";
+import React from "react";
+import { Rating } from "react-native-ratings";
 
 interface UserProfileProps {
   profileUri: string;
@@ -18,20 +16,27 @@ interface UserProfileProps {
 }
 
 const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wantsSlugPoints, uid}: UserProfileProps) => {
-    const colorScheme = useColorScheme();
     const boxColor = Colors.light.box;
     return (
       <View style={{marginBottom: 20}}>
         <View style={styles.container}>
             <View style={{backgroundColor: boxColor, borderRadius: 10, width: 350, alignSelf: 'center', paddingVertical: 10}}>
               <View style={{flexDirection: 'row', backgroundColor: boxColor}}>
-                <Image source={{uri: profileUri}} style={{width: 50, height: 50, borderRadius: 25, overflow: 'hidden', marginHorizontal: 10, marginBottom: 10}} />
+                <Image source={{uri: profileUri}} style={{width: 50, height: 50, borderRadius: 25, overflow: 'hidden', marginHorizontal: 10}} />
                 <View style={{backgroundColor: boxColor}}>
-                  <Text style={{fontWeight: 'bold'}}>{name}</Text>
+                  <Text style={{fontWeight: '500', fontSize: 17}}>{name}</Text>
                   <Text style={{opacity: 0.8, fontSize: 12}}>{slugPoints} slugPoints</Text>
+                  <View style={{backgroundColor: 'transparent', flexDirection: 'row'}}>
+                    <Rating
+                      showRating={false}
+                      ratingColor="#f59e0b"
+                      style={{backgroundColor: "#000", width: 65, marginTop: 5}}
+                      imageSize={14}
+                      onFinishRating={() => {}}
+                    />
+                    <Text style={{color: '#3E3E3EA1'}}>test</Text>
+                  </View>
                 </View>
-                <Text style={{marginLeft: 'auto', marginRight: 5, textAlignVertical: 'center', fontWeight: 'bold'}}>{collegeAffiliation}</Text>
-                <Feather name="home" size={18} color={colorScheme === "dark" ? "white": "black"} style={{marginRight: 10}} />
               </View>
               <Text style={styles.paragraph}>
                 {bio}

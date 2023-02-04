@@ -25,7 +25,7 @@ import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
@@ -55,7 +55,7 @@ function RootNavigator() {
 
   return (
     <Stack.Navigator>
-      {checkIfSignedIn
+      {true
       ?
       <Stack.Group>
         <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerTransparent: true, headerBlurEffect: 'systemUltraThinMaterialLight', headerTitle: '', headerBackVisible: false, headerRight: headerRight}} />
@@ -66,7 +66,7 @@ function RootNavigator() {
         </Stack.Group>
       </Stack.Group>
       :
-      <Stack.Group screenOptions={{headerTransparent: true, headerBlurEffect: 'dark', headerTitle: '', headerBackVisible: false}}>
+      <Stack.Group screenOptions={{headerTransparent: true, headerBlurEffect: 'systemUltraThinMaterialLight', headerTitle: '', headerBackVisible: false}}>
         <Stack.Screen name="Register" component={SignInScreen} />
         <Stack.Screen name="UserCreate" component={CreateUserScreen} />
       </Stack.Group>
