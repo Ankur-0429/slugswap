@@ -5,6 +5,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import { Feather } from "@expo/vector-icons";
 import follow from "../api/follow";
 import FollowButton from "./FollowButton";
+import Colors from "../constants/Colors";
 
 interface UserProfileProps {
   profileUri: string;
@@ -18,7 +19,7 @@ interface UserProfileProps {
 
 const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wantsSlugPoints, uid}: UserProfileProps) => {
     const colorScheme = useColorScheme();
-    const boxColor = "#ccc";
+    const boxColor = Colors.light.box;
     return (
       <View style={{marginBottom: 20}}>
         <View style={styles.container}>

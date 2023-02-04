@@ -8,6 +8,7 @@ import { StyleSheet, Image, FlatList, ListRenderItem } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import follow from '../api/follow';
 import { useNavigation } from '@react-navigation/native';
+import Colors from '../constants/Colors';
 
 interface DirectMessageUserProps {
   uid: string;
@@ -17,7 +18,7 @@ interface DirectMessageUserProps {
 const DirectMessageUser = ({uid, index}: DirectMessageUserProps) => {
   const {user} = useUser(uid);
   const colorScheme = useColorScheme();
-  const boxColor = "#ccc";
+  const boxColor = Colors.light.box;
   const navigatio = useNavigation();
   
   return (

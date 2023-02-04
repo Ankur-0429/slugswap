@@ -15,6 +15,7 @@ import { SelectList } from 'react-native-dropdown-select-list';
 import { FontAwesome } from '@expo/vector-icons';
 import convertToURL from '../constants/ConvertToURL';
 import createUser from '../api/createUser';
+import Colors from '../constants/Colors';
 
 interface DropDownProps {
   selected: any;
@@ -28,7 +29,7 @@ interface DropDownProps {
 
 const DropDown = ({selected, setSelected, data, title}:DropDownProps) => {
   const colorScheme = useColorScheme();
-  const BoxColor = colorScheme === "dark" ? "#1c1c1e":"#ccc";
+  const boxColor = Colors.light.box;
   
   return(
     <View style={{marginVertical: 10}}>
@@ -36,13 +37,13 @@ const DropDown = ({selected, setSelected, data, title}:DropDownProps) => {
       <SelectList
           defaultOption={selected}
           setSelected={(val: any) => setSelected(val)} 
-          dropdownStyles={{backgroundColor:  BoxColor, borderColor: 'transparent'}}
+          dropdownStyles={{backgroundColor:  boxColor, borderColor: 'transparent'}}
           arrowicon={<FontAwesome name="chevron-down" size={12} color={colorScheme === "dark" ? "white":"black"} />} 
           searchicon={<FontAwesome name="search" size={12} style={{marginRight: 5}} color={colorScheme === "dark" ? "white":"black"} />} 
           closeicon={<FontAwesome name="close" size={12} color={colorScheme === "dark" ? "white":"black"} />}
           inputStyles={{color: colorScheme === "dark" ? "white":"black"}}
           dropdownTextStyles={{color: colorScheme === "dark" ? "white":"black"}}
-          boxStyles={{backgroundColor: BoxColor, borderColor: 'transparent', width: 250}}
+          boxStyles={{backgroundColor: boxColor, borderColor: 'transparent', width: 250}}
           data={data} 
           save="value"
       />

@@ -56,7 +56,6 @@ const MessageScreen = () => {
         {
           width: "100%",
           height: "100%",
-          backgroundColor: Colors.light.background,
         },
       ]}>
       {/* <ImageView postUri={[{url: postUri}]} ifVisible={ifVisible} setIfVisible={setIfVisible}  /> */}

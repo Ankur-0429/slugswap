@@ -29,7 +29,7 @@ const ChatMessage = (props: ChatMessageProps) => {
   const { borderBottomLeftRadius, borderBottomRightRadius, borderTopLeftRadius, borderTopRightRadius } = util(type, isMyMessage());
 
   const colorScheme = useColorScheme();
-  const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
+  const boxColor = Colors.light.box;
 
   return (
     <View style={styles.container}>

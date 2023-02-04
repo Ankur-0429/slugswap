@@ -87,7 +87,7 @@ import { currentUser } from "../../constants/Atoms";
     }, [showEmojiPicker, showImagePicker]);
   
     const colorScheme = useColorScheme();
-    const boxColor = "#ccc";
+    const boxColor = Colors.light.box;
 
   
     return (
