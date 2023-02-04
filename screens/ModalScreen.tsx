@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Text, View } from '../components/Themed';
 import { currentUser, ifSignedIn } from '../constants/Atoms';
 import useUser from '../hooks/useUser';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { guest } from '../constants/Profile';
 import { Accessory, Avatar } from 'react-native-elements';
 import useColorScheme from '../hooks/useColorScheme';
@@ -17,6 +17,7 @@ import convertToURL from '../constants/ConvertToURL';
 import createUser from '../api/createUser';
 
 interface DropDownProps {
+  selected: any;
   setSelected: React.Dispatch<React.SetStateAction<any>>;
   data: {
     key: string;
@@ -25,7 +26,7 @@ interface DropDownProps {
   title?: string;
 }
 
-const DropDown = ({setSelected, data, title}:DropDownProps) => {
+const DropDown = ({selected, setSelected, data, title}:DropDownProps) => {
   const colorScheme = useColorScheme();
   const BoxColor = colorScheme === "dark" ? "#1c1c1e":"#ccc";
   
@@ -33,6 +34,7 @@ const DropDown = ({setSelected, data, title}:DropDownProps) => {
     <View style={{marginVertical: 10}}>
       <Text style={{paddingLeft: 5}}>{title}</Text>
       <SelectList
+          defaultOption={selected}
           setSelected={(val: any) => setSelected(val)} 
           dropdownStyles={{backgroundColor:  BoxColor, borderColor: 'transparent'}}
           arrowicon={<FontAwesome name="chevron-down" size={12} color={colorScheme === "dark" ? "white":"black"} />} 
@@ -73,6 +75,7 @@ export default function ModalScreen() {
   const [,setIfSignedIn] = useAtom(ifSignedIn);
   const [currUser, setCurrentUser] = useAtom(currentUser);
   const {user} = useUser(currUser!.uid);
+  console.log(user);
   const [image, setImage] = useState(user?.image);
   const [college, setCollege] = useState(user?.collegeAffiliation as undefined | string);
   const [name, setName] = useState(user?.name as undefined | string);
@@ -85,6 +88,13 @@ export default function ModalScreen() {
   const disabled = bio === undefined || name === undefined || name === "" || college === undefined || ifSendSlugPoints === undefined || slugPoints === undefined || slugPoints === '' || bio === '' || college === '';
   
 
+  // useEffect(() => {
+  //   setImage(user?.image);
+  //   setCollege(user?.collegeAffiliation as undefined | string);
+  //   setName(user?.name as undefined | string);
+  //   setIfSendSlugPoints(user?.ifSendSlugPoints as undefined | string);
+  //   setBio(user?.bio as undefined | string);
+  // }, [user])
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -139,8 +149,8 @@ export default function ModalScreen() {
           keyboardType="twitter"
         />
       </View>
-      <DropDown setSelected={setCollege} data={Collegedata} title={'College Affiliation'} />
-      <DropDown setSelected={setIfSendSlugPoints} data={SlugPointData} title={'Send or Receive SlugPoints?'} />
+      <DropDown selected={college} setSelected={setCollege} data={Collegedata} title={'College Affiliation'} />
+      <DropDown selected={ifSendSlugPoints} setSelected={setIfSendSlugPoints} data={SlugPointData} title={'Send or Receive SlugPoints?'} />
       <View>
         <Text style={{paddingLeft: 8}}>How many SlugPoints do you have?</Text>
         <TextInput

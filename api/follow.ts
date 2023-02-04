@@ -34,21 +34,57 @@ const follow = async (uid: string) => {
         await updateDoc(doc(db, "follower_request", currentUser), {
             follower_request: arrayRemove(uid),
         });
+
+        let users = [currentUser, uid];
+        users = users.sort();
+
         await setDoc(doc(db, "dms", uuid.v4() as string), {
-            users: [currentUser, uid]
+            firstUser: users[0],
+            secondUser: users[1]
         });
     } else {
-        await setDoc(doc(db, "follower_request", uid), {
-            follower_request: arrayUnion(currentUser),
-        });
+
+        const docFollowerRequest = doc(db, "follower_request", uid);
+        const ifFollowerRequestExist = await (await getDoc(docFollowerRequest)).exists();
+
+        if (ifFollowerRequestExist) {
+            await updateDoc(doc(db, "follower_request", uid), {
+                follower_request: arrayUnion(currentUser),
+            });
+        }
+        else {
+            await setDoc(doc(db, "follower_request", uid), {
+                follower_request: arrayUnion(currentUser),
+            });
+        }
     }
 
-    await setDoc(doc(db, "following", currentUser), {
-      following: arrayUnion(uid),
-    });
-    await setDoc(doc(db, "followers", uid), {
-      followers: arrayUnion(currentUser),
-    });
+    const docRefFollowing = doc(db, "following", currentUser);
+    const ifFollowingExist = await (await getDoc(docRefFollowing)).exists();
+
+    const docRefFollowers = doc(db, "followers", uid);
+    const ifFollowersExist = await (await getDoc(docRefFollowers)).exists();
+
+    if (ifFollowingExist) {
+        await updateDoc(doc(db, "following", currentUser), {
+            following: arrayUnion(uid),
+        });
+    }
+    else {
+        await setDoc(doc(db, "following", currentUser), {
+            following: arrayUnion(uid),
+        });
+    }
+    if (ifFollowersExist) {
+        await updateDoc(doc(db, "followers", uid), {
+            followers: arrayUnion(currentUser),
+        });
+    }
+    else {
+        await setDoc(doc(db, "followers", uid), {
+            followers: arrayUnion(currentUser),
+        });
+    }
   }
 };
 

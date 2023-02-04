@@ -15,11 +15,11 @@ const FollowButton = ({wantsSlugPoints, uid}: FollowButtonProps) => {
     const [loading, setLoading] = useState(false);
     
     const get_text = () => {
-        if (requested.includes(uid)) {
-            return "Requested";
-        }
         if (dms.includes(uid)) {
             return "Message"
+        }
+        if (requested.includes(uid)) {
+            return "Requested";
         }
         return wantsSlugPoints ? "Request SlugPoints" : "Give SlugPoints";
     }

@@ -1,5 +1,5 @@
-import { serverTimestamp } from 'firebase/firestore';
 import { getFirestore, setDoc, doc } from 'firebase/firestore/lite';
+import moment from 'moment';
 import { guest } from '../constants/Profile';
 
 export interface createUserProps {
@@ -21,7 +21,7 @@ const createUser = async (props: createUserProps) => {
     ifSendSlugPoints: props.ifSendSlugPoints === "I want to send slugPoints",
     slugPoints: props.slugPoints,
     bio: props.bio,
-    dateCreated: serverTimestamp(),
+    dateCreated: moment().toISOString(),
     uid: props.uid,
   });
 };

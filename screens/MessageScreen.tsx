@@ -10,8 +10,6 @@ import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import { Message } from "../types";
 import "react-native-get-random-values";
-import uuid from "react-native-uuid";
-import ImageView from "./ImageViewScreen";
 import { getFirestore, where, collection, query, onSnapshot } from "firebase/firestore";
 import { useAtom } from "jotai";
 import { currentUser } from "../constants/Atoms";
@@ -30,17 +28,18 @@ const MessageScreen = () => {
 
   const firestore = getFirestore();
   const dmRef = collection(firestore, "dms");
-  const q =  query(dmRef, where("users", "array-contains-any", [message_uid, currUser?.uid]))
+  let users = [message_uid, currUser?.uid];
+  users = users.sort();
+  const q =  query(dmRef, where("firstUser", "==", users[0]), where("secondUser", "==", users[1]))
 
   const [messages, setMessages] = useState([] as Message[]);
-  console.log(messages);
   useEffect(() => {
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const d = [] as any;
       snapshot.docs.forEach((doc) => {
         d.push(doc.data())
       })
-      setMessages(d[0].messages || []);
+      setMessages(d[0]?.messages || []);
     });
     return unsubscribe;
   }, []);

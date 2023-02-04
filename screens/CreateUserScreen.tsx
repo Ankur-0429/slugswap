@@ -6,7 +6,6 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { useState } from 'react';
 import useColorScheme from '../hooks/useColorScheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import uuid from 'react-native-uuid';
 
 interface DropDownProps {
   setSelected: React.Dispatch<React.SetStateAction<any>>;
