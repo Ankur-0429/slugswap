@@ -17,7 +17,7 @@ interface DirectMessageUserProps {
 const DirectMessageUser = ({uid, index}: DirectMessageUserProps) => {
   const {user} = useUser(uid);
   const colorScheme = useColorScheme();
-  const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
+  const boxColor = "#ccc";
   const navigatio = useNavigation();
   
   return (

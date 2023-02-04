@@ -112,15 +112,15 @@ const Library: React.FC<LibraryProps> = ({ albums }) => {
           style={{
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
-            borderColor: Colors[colorScheme].background,
-            backgroundColor: Colors[colorScheme].background,
+            borderColor: Colors.light.background,
+            backgroundColor: Colors.light.background,
             overflow: "hidden",
           }}
           textStyle={{
             color: "grey",
           }}
           dropDownContainerStyle={{
-            backgroundColor: Colors[colorScheme].background,
+            backgroundColor: Colors.light.background,
           }}
         />
       )}
@@ -167,7 +167,7 @@ const Library: React.FC<LibraryProps> = ({ albums }) => {
                         paddingHorizontal: 3,
                         paddingVertical: 2,
                         borderRadius: 5,
-                        color: Colors[colorScheme].text,
+                        color: Colors.light.text,
                       }}>
                       {new Date(Math.round(e.duration) * 1000)
                       .toISOString()

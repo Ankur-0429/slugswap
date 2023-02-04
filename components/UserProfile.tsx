@@ -18,7 +18,7 @@ interface UserProfileProps {
 
 const UserProfile = ({profileUri, name, bio, collegeAffiliation, slugPoints, wantsSlugPoints, uid}: UserProfileProps) => {
     const colorScheme = useColorScheme();
-    const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
+    const boxColor = "#ccc";
     return (
       <View style={{marginBottom: 20}}>
         <View style={styles.container}>

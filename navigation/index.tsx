@@ -29,7 +29,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      theme={DefaultTheme}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -58,7 +58,7 @@ function RootNavigator() {
       {checkIfSignedIn
       ?
       <Stack.Group>
-        <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerTransparent: true, headerBlurEffect: 'dark', headerTitle: '', headerBackVisible: false, headerRight: headerRight}} />
+        <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerTransparent: true, headerBlurEffect: 'systemUltraThinMaterialLight', headerTitle: '', headerBackVisible: false, headerRight: headerRight}} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Screen name="message" component={MessageScreen} initialParams={{uid: ''}} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
@@ -82,13 +82,12 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
 
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: Colors.light.tint,
         tabBarShowLabel: false,
         headerShown: false,
       }}>
@@ -107,7 +106,7 @@ function BottomTabNavigator() {
               <FontAwesome
                 name="info-circle"
                 size={25}
-                color={Colors[colorScheme].text}
+                color={Colors.light.text}
                 style={{ marginRight: 15 }}
               />
             </Pressable>

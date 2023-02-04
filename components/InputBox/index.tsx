@@ -87,7 +87,7 @@ import { currentUser } from "../../constants/Atoms";
     }, [showEmojiPicker, showImagePicker]);
   
     const colorScheme = useColorScheme();
-    const boxColor = colorScheme === "dark" ? "#1c1c1e" : "#ccc";
+    const boxColor = "#ccc";
 
   
     return (
@@ -98,17 +98,6 @@ import { currentUser } from "../../constants/Atoms";
               styles.mainContainer,
               { backgroundColor: boxColor },
             ]}>
-            {/* <TouchableOpacity
-              onPress={() => {
-                setShowEmojiPicker(!showEmojiPicker);
-                setShowImagePicker(false);
-              }}>
-              {showEmojiPicker ? (
-                <Ionicons name="close" size={24} color="grey" />
-              ) : (
-                <FontAwesome5 name="laugh-beam" size={24} color="grey" />
-              )}
-            </TouchableOpacity> */}
             <TextInput
               onFocus={() => {
                 setShowEmojiPicker(false);
@@ -117,7 +106,7 @@ import { currentUser } from "../../constants/Atoms";
               placeholder="Type a Message"
               placeholderTextColor={"grey"}
               selectionColor={Colors["constants"].primary}
-              style={[styles.textInput, { color: Colors[colorScheme].text }]}
+              style={[styles.textInput, { color: Colors.light.text }]}
               multiline
               value={message.content}
               onChangeText={(text) => {

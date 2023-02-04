@@ -56,7 +56,7 @@ const ChatMessage = (props: ChatMessageProps) => {
 
             <Text
               style={{
-                color: isMyMessage() ? "white" : Colors[colorScheme].text,
+                color: isMyMessage() ? "white" : Colors.light.text,
               }}>
               {message.content}
             </Text>
@@ -78,7 +78,7 @@ const ChatMessage = (props: ChatMessageProps) => {
                 {
                   backgroundColor: isMyMessage()
                     ? Colors["constants"].primary
-                    : Colors[colorScheme].background,
+                    : Colors.light.background,
                   padding: 2,
                   alignSelf: isMyMessage() ? "flex-end" : "flex-start",
                 }
